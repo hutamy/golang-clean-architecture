@@ -1,0 +1,22 @@
+app:
+  port: "8080"
+  environment: "development"
+  log_level: "debug"
+
+database:
+  master_dsn: "postgres://user:password@master-host:5432/app_db?sslmode=disable"
+  replicas:
+    - "postgres://user:password@replica1-host:5432/app_db?sslmode=disable"
+    - "postgres://user:password@replica2-host:5432/app_db?sslmode=disable"
+
+redis:
+  addr: "localhost:6379"
+  password: ""
+  db: 0
+
+mongo:
+  uri: "mongodb://localhost:27017"
+  database: "dev_mongo"
+
+jwt:
+  secret_key: "dev_secret_key"

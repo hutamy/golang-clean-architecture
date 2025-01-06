@@ -1,0 +1,22 @@
+app:
+  port: "80"
+  environment: "production"
+  log_level: "info"
+
+database:
+  master_dsn: "postgres://user:password@master-host:5432/app_db?sslmode=disable"
+  replicas:
+    - "postgres://user:password@replica1-host:5432/app_db?sslmode=disable"
+    - "postgres://user:password@replica2-host:5432/app_db?sslmode=disable"
+
+redis:
+  addr: "prod-redis-host:6379"
+  password: "prod-redis-password"
+  db: 0
+
+mongo:
+  uri: "mongodb://prod-mongo-host:27017"
+  database: "prod_mongo"
+
+jwt:
+  secret_key: "prod_secret_key"

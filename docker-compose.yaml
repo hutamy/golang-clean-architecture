@@ -1,0 +1,66 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: go-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USER=example_user
+      - DB_PASSWORD=example_password
+      - DB_NAME=example_db
+      - REDIS_HOST=redis
+      - MONGO_URI=mongodb://mongo:27017
+      - SECRET_KEY=mysecretkey
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+      - mongo
+    networks:
+      - app-network
+
+  postgres:
+    container_name: postgres
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=example_user
+      - POSTGRES_PASSWORD=example_password
+      - POSTGRES_DB=example_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=adminpassword
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
